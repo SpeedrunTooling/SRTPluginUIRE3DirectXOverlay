@@ -292,7 +292,7 @@ namespace SRTPluginUIRE3DirectXOverlay
             if (!config.NoInventory)
             {
                 float invXOffset = config.InventoryPositionX == -1 ? statsXOffset : config.InventoryPositionX;
-                float invYOffset = config.InventoryPositionY == -1 ? yOffset + 24f : config.InventoryPositionY; 
+                float invYOffset = config.InventoryPositionY == -1 ? yOffset + 24f : config.InventoryPositionY; // Using yOffset instead of statsYOffset to offset everything relative to the other stats Y position.
                 if (itemToImageTranslation != null && weaponToImageTranslation != null)
                 {
                     for (int i = 0; i < gameMemory.PlayerInventory.Length; ++i)
@@ -306,8 +306,8 @@ namespace SRTPluginUIRE3DirectXOverlay
                             float imageY = invYOffset + (slotRow * INV_SLOT_HEIGHT);
                             //float textX = imageX + (INV_SLOT_WIDTH * options.ScalingFactor);
                             //float textY = imageY + (INV_SLOT_HEIGHT * options.ScalingFactor);
-                            float textX = (imageX + INV_SLOT_WIDTH) * 0.96f;
-                            float textY = (imageY + INV_SLOT_HEIGHT) * 0.92f;
+                            float textX = imageX + (INV_SLOT_WIDTH * 0.96f);
+                            float textY = imageY + (INV_SLOT_HEIGHT * 0.68f);
                             SolidBrush textBrush = _white;
                             if (gameMemory.PlayerInventory[i].Quantity == 0)
                                 textBrush = _darkred;
@@ -318,9 +318,6 @@ namespace SRTPluginUIRE3DirectXOverlay
                                 weapon.WeaponID = gameMemory.PlayerInventory[i].WeaponID;
                                 weapon.Attachments = gameMemory.PlayerInventory[i].Attachments;
                             }
-                            
-
-                            Console.WriteLine("Weapon: {0}", weapon);
 
                             // Get the region of the inventory sheet where this item's icon resides.
                             SharpDX.Mathematics.Interop.RawRectangleF imageRegion;
@@ -493,7 +490,7 @@ namespace SRTPluginUIRE3DirectXOverlay
             };
 
             int weaponColumnInc = -1;
-            int weaponRowInc = 8;
+            int weaponRowInc = -1;
             weaponToImageTranslation = new Dictionary<Weapon, SharpDX.Mathematics.Interop.RawRectangleF>()
             {
                 { new Weapon() { WeaponID = WeaponEnumeration.None, Attachments = AttachmentsFlag.None }, new SharpDX.Mathematics.Interop.RawRectangleF(INV_SLOT_WIDTH * 0, INV_SLOT_HEIGHT * 5, INV_SLOT_WIDTH, INV_SLOT_HEIGHT) },
